@@ -8,11 +8,13 @@
 </head>
 <body>
   <div class="container">
-    <h1>AI Image Generator</h1>
-    <input type="text" id="prompt" placeholder="Enter your image prompt..." />
-    <button onclick="generateImage()">Generate</button>
-    <div id="imageResult"></div>
+    <h1>🧠 AI Image Generator</h1>
+    <input type="text" id="prompt" placeholder="Enter your prompt (e.g. cat wearing sunglasses)" />
+    <button onclick="generateImage()">Generate Image</button>
+    <div id="loading" style="display:none;">⏳ Generating...</div>
+    <img id="output" style="display:none;" />
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
