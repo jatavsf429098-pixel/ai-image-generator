@@ -1,21 +1,27 @@
 async function generateImage() {
   const prompt = document.getElementById("prompt").value;
-  const apiKey = "YOUR_API_KEY"; // Replace with your API key
+  const loading = document.getElementById("loading");
+  const outputImg = document.getElementById("output");
 
-  const response = await fetch("https://api.openai.com/v1/images/generations", {
+  if (!prompt) {
+    alert("Please enter a prompt.");
+    return;
+  }
+
+  loading.style.display = "block";
+  outputImg.style.display = "none";
+
+  const response = await fetch("https://api.deepai.org/api/text2img", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      "api-key": "✅_c8af263e-cdfd-419a-be82-73afbe57a5dc
     },
-    body: JSON.stringify({
-      prompt: prompt,
-      n: 1,
-      size: "512x512",
-    }),
+    body: "text=" + encodeURIComponent(prompt)
   });
 
   const data = await response.json();
-  const imageUrl = data.data[0].url;
-  document.getElementById("imageResult").innerHTML = `<img src="${imageUrl}" alt="Generated Image" />`;
+  loading.style.display = "none";
+  outputImg.src = data.output_url;
+  outputImg.style.display = "block";
 }
