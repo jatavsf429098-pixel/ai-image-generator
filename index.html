@@ -1,20 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI Image Generator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 AI Image Generator</h1>
-    <input type="text" id="prompt" placeholder="Enter your prompt (e.g. cat wearing sunglasses)" />
-    <button onclick="generateImage()">Generate Image</button>
-    <div id="loading" style="display:none;">⏳ Generating...</div>
-    <img id="output" style="display:none;" />
-  </div>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="title">PixelForge — AI Image Generator</h1>
+      <p class="subtitle">Turn text prompts into images. Fast, beautiful, and easy to use.</p>
+    </div>
+  </header>
 
-  <script src="script.js"></script>
+  <main class="container main">
+    <section class="prompt-box">
+      <label for="prompt">Describe the image you want</label>
+      <textarea id="prompt" placeholder="e.g. A serene mountain lake at sunrise, ultra-detailed, 4k"></textarea>
+
+      <div class="controls">
+        <div class="options">
+          <select id="size">
+            <option value="512x512">512 × 512</option>
+            <option value="768x768">768 × 768</option>
+            <option value="1024x1024">1024 × 1024</option>
+          </select>
+          <input id="numImages" type="number" min="1" max="4" value="1" title="Number of images" />
+        </div>
+
+        <button id="generateBtn" class="btn">Generate Image</button>
+      </div>
+
+      <p id="hint" class="hint">Tip: be specific (lighting, style, mood, camera type, color palette).</p>
+    </section>
+
+    <section class="results" id="results">
+      <div class="placeholder" id="placeholder">Your generated image(s) will appear below.</div>
+      <div id="images" class="images-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="ad">
+        <!-- Replace with your own ad/banner image or an affiliate banner -->
+        <img src="https://via.placeholder.com/900x120?text=Your+Ad+Banner+Here" alt="Ad banner" />
+      </div>
+      <p class="small">Hosted on GitHub Pages • Built with a simple image API</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
