@@ -1,491 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marriage Biodata Generator</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Marriage Biodata Generator</title>
 
-    <style>
-        /* --- CSS STYLES --- */
-        :root {
-            --primary-color: #4a90e2;
-            --secondary-color: #f5a623;
-            --background-color: #f4f7f6;
-            --card-background: #ffffff;
-            --text-color: #333333;
-            --light-text-color: #777777;
-            --border-color: #e0e0e0;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <!-- jsPDF for PDF Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px 0;
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f9f7fe, #e3f2fd);
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        /* --- Header / Hero Section --- */
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            background-color: var(--card-background);
-            border-radius: 15px;
-            margin-top: 20px;
-            box-shadow: var(--shadow);
-        }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--light-text-color);
-            margin-bottom: 30px;
-        }
+    header h1 {
+      font-size: 2.5rem;
+      color: #1a237e;
+      margin-bottom: 10px;
+    }
 
-        .cta-button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 35px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
+    header p {
+      font-size: 1.1rem;
+      color: #5c6bc0;
+    }
 
-        .cta-button:hover {
-            background-color: #357abd;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-        }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background-color: #1a237e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
 
-        /* --- Card Styles --- */
-        .card {
-            background-color: var(--card-background);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 40px;
-            box-shadow: var(--shadow);
-        }
+    .btn:hover {
+      background-color: #0d1b50;
+    }
 
-        .card h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: transform 0.2s ease;
+    }
 
-        /* --- Form Styles --- */
-        #biodata-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+    .card:hover {
+      transform: translateY(-5px);
+    }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-        .form-group label {
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--light-text-color);
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
 
-        .form-group input {
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s ease;
-        }
+    input, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-        }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
 
-        #generate-btn {
-            grid-column: 1 / -1;
-            margin-top: 10px;
-        }
-        
-        /* --- Payment Section --- */
-        #payment-section {
-            text-align: center;
-            display: none; /* Hidden by default */
-        }
-        
-        #payment-section p {
-            font-size: 1.1rem;
-            color: var(--text-color);
-            margin-bottom: 20px;
-        }
-        
-        #payment-section img {
-            max-width: 200px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+    .biodata-preview {
+      display: none;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      margin-top: 30px;
+    }
 
-        /* --- Biodata Output Styles --- */
-        #biodata-output {
-            display: none; /* Hidden by default */
-            animation: fadeIn 0.5s ease-in-out;
-        }
+    .biodata-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #1a237e;
+      padding-bottom: 10px;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .biodata-header h2 {
+      color: #1a237e;
+      font-size: 2rem;
+    }
 
-        .biodata-header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--primary-color);
-        }
+    .biodata-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
 
-        .biodata-header h3 {
-            font-size: 2rem;
-            color: var(--text-color);
-        }
+    .biodata-item {
+      flex: 1 1 45%;
+      min-width: 250px;
+      padding: 12px;
+      background: #f5f7ff;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
 
-        .biodata-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-        }
+    .biodata-item strong {
+      color: #1a237e;
+    }
 
-        .biodata-content .label {
-            font-weight: 600;
-            color: var(--light-text-color);
-            text-align: right;
-        }
+    .action-buttons {
+      text-align: center;
+      margin-top: 30px;
+    }
 
-        .biodata-content .value {
-            font-weight: 400;
-            color: var(--text-color);
-        }
+    .action-buttons .btn {
+      margin: 0 10px;
+    }
 
-        #download-btn-container {
-            text-align: center;
-            margin-top: 30px;
-        }
+    .upgrade-section {
+      text-align: center;
+      padding: 30px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      display: none;
+    }
 
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: auto; /* Pushes footer to the bottom */
-            background-color: var(--card-background);
-            color: var(--light-text-color);
-            font-size: 0.9rem;
-        }
-        
-        footer p {
-            margin-bottom: 5px;
-        }
+    .upgrade-section p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #d32f2f;
+    }
 
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
+    .qr-code {
+      margin: 20px auto;
+      display: block;
+    }
 
-            .hero p {
-                font-size: 1rem;
-            }
+    .counter {
+      text-align: center;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
 
-            #biodata-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-group.full-width, #generate-btn {
-                grid-column: 1 / -1;
-            }
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #666;
+      font-size: 0.9rem;
+    }
 
-            .biodata-content {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
+    footer a {
+      color: #1a237e;
+      text-decoration: none;
+    }
 
-            .biodata-content .label {
-                text-align: left;
-                padding-bottom: 2px;
-                border-bottom: 1px solid var(--border-color);
-            }
-        }
-    </style>
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      .card, .biodata-preview, .upgrade-section {
+        padding: 20px;
+      }
+
+      .biodata-item {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <header class="hero">
-            <h1>Create Your Marriage Biodata Instantly</h1>
-            <p>Simple • Professional • Ready in Seconds</p>
-            <a href="#generator-section" class="cta-button">Generate Now</a>
-        </header>
+  <div class="container">
+    <header>
+      <h1>Create Your Marriage Biodata Instantly</h1>
+      <p>Simple • Professional • Ready in Seconds</p>
+      <button id="generateBtn" class="btn">Generate Now</button>
+    </header>
 
-        <main>
-            <section id="generator-section" class="card">
-                <div id="form-container">
-                    <h2>Enter Your Details</h2>
-                    <form id="biodata-form">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="dob">Date of Birth</label>
-                            <input type="date" id="dob" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="age">Age</label>
-                            <input type="number" id="age" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="height">Height (e.g., 5' 8")</label>
-                            <input type="text" id="height" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="weight">Weight (kg)</label>
-                            <input type="number" id="weight" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="education">Education</label>
-                            <input type="text" id="education" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="occupation">Occupation</label>
-                            <input type="text" id="occupation" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="fatherName">Father’s Name</label>
-                            <input type="text" id="fatherName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="motherName">Mother’s Name</label>
-                            <input type="text" id="motherName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact">Contact Number</label>
-                            <input type="tel" id="contact" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="address">Address</label>
-                            <input type="text" id="address" required>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="hobbies">Hobbies</label>
-                            <input type="text" id="hobbies" required>
-                        </div>
-                        <button type="submit" id="generate-btn" class="cta-button">Generate Biodata</button>
-                    </form>
-                </div>
-                
-                <div id="payment-section">
-                    <h2>Free Limit Reached</h2>
-                    <p>Upgrade to continue. Unlock <strong>20 more biodatas</strong> for just ₹88.</p>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAIJJREFUeJztwQEBAAAAgiD/r25IQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AY10AAE1jctcAAAAAElFTkSuQmCC" alt="Pay QR" />
-                    <button id="pay-unlock-btn" class="cta-button">Pay & Unlock</button>
-                </div>
-            </section>
+    <div class="counter" id="counter">Free Generations Left: 2</div>
 
-            <section id="biodata-output" class="card">
-                <div id="biodata-content-to-download">
-                    <div class="biodata-header">
-                        <h3 id="output-name"></h3>
-                    </div>
-                    <div class="biodata-content">
-                        <div class="label">Date of Birth:</div><div class="value" id="output-dob"></div>
-                        <div class="label">Age:</div><div class="value" id="output-age"></div>
-                        <div class="label">Height:</div><div class="value" id="output-height"></div>
-                        <div class="label">Weight:</div><div class="value" id="output-weight"></div>
-                        <div class="label">Education:</div><div class="value" id="output-education"></div>
-                        <div class="label">Occupation:</div><div class="value" id="output-occupation"></div>
-                        <div class="label">Father’s Name:</div><div class="value" id="output-fatherName"></div>
-                        <div class="label">Mother’s Name:</div><div class="value" id="output-motherName"></div>
-                        <div class="label">Address:</div><div class="value" id="output-address"></div>
-                        <div class="label">Contact Number:</div><div class="value" id="output-contact"></div>
-                        <div class="label">Hobbies:</div><div class="value" id="output-hobbies"></div>
-                    </div>
-                </div>
-                <div id="download-btn-container">
-                    <button id="download-pdf-btn" class="cta-button">Download as PDF</button>
-                </div>
-            </section>
+    <!-- Generator Form -->
+    <div id="generatorForm" class="card" style="display: none;">
+      <h2 style="color: #1a237e; margin-bottom: 20px;">Fill Your Details</h2>
+      <form id="biodataForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="Enter your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" required />
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" placeholder="e.g. 28" min="18" required />
+        </div>
+        <div class="form-group">
+          <label for="height">Height (cm)</label>
+          <input type="number" id="height" placeholder="e.g. 170" step="0.1" required />
+        </div>
+        <div class="form-group">
+          <label for="weight">Weight (kg)</label>
+          <input type="number" id="weight" placeholder="e.g. 65" step="0.1" required />
+        </div>
+        <div class="form-group">
+          <label for="education">Education</label>
+          <input type="text" id="education" placeholder="e.g. MBA, B.Tech" required />
+        </div>
+        <div class="form-group">
+          <label for="occupation">Occupation</label>
+          <input type="text" id="occupation" placeholder="e.g. Software Engineer" required />
+        </div>
+        <div class="form-group">
+          <label for="fatherName">Father’s Name</label>
+          <input type="text" id="fatherName" placeholder="Enter father's name" required />
+        </div>
+        <div class="form-group">
+          <label for="motherName">Mother’s Name</label>
+          <input type="text" id="motherName" placeholder="Enter mother's name" required />
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea id="address" placeholder="Enter full address" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="contact">Contact Number</label>
+          <input type="tel" id="contact" placeholder="e.g. +91 9876543210" required />
+        </div>
+        <div class="form-group">
+          <label for="hobbies">Hobbies</label>
+          <textarea id="hobbies" placeholder="e.g. Reading, Traveling, Cooking"></textarea>
+        </div>
+        <button type="submit" class="btn">Generate Biodata</button>
+      </form>
+    </div>
 
-        </main>
+    <!-- Biodata Preview -->
+    <div id="biodataPreview" class="biodata-preview">
+      <div id="biodataContent">
+        <div class="biodata-header">
+          <h2 id="previewName">John Doe</h2>
+          <p id="previewAge">Age: 28</p>
+        </div>
+        <div class="biodata-row">
+          <div class="biodata-item"><strong>Date of Birth:</strong> <span id="previewDob"></span></div>
+          <div class="biodata-item"><strong>Height:</strong> <span id="previewHeight"></span> cm</div>
+        </div>
+        <div class="biodata-row">
+          <div class="biodata-item"><strong>Weight:</strong> <span id="previewWeight"></span> kg</div>
+          <div class="biodata-item"><strong>Education:</strong> <span id="previewEducation"></span></div>
+        </div>
+        <div class="biodata-row">
+          <div class="biodata-item"><strong>Occupation:</strong> <span id="previewOccupation"></span></div>
+          <div class="biodata-item"><strong>Father’s Name:</strong> <span id="previewFather"></span></div>
+        </div>
+        <div class="biodata-row">
+          <div class="biodata-item"><strong>Mother’s Name:</strong> <span id="previewMother"></span></div>
+          <div class="biodata-item"><strong>Contact:</strong> <span id="previewContact"></span></div>
+        </div>
+        <div class="biodata-row">
+          <div class="biodata-item"><strong>Address:</strong> <span id="previewAddress"></span></div>
+          <div class="biodata-item"><strong>Hobbies:</strong> <span id="previewHobbies"></span></div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button id="downloadPdf" class="btn">Download as PDF</button>
+        <button id="newBiodata" class="btn" style="background: #388e3c;">Create New</button>
+      </div>
+    </div>
+
+    <!-- Upgrade Section -->
+    <div id="upgradeSection" class="upgrade-section">
+      <p>Upgrade to continue. Unlock 20 more biodatas for just ₹88.</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi%3A%2F%2Fpay%3Fpa%3Dexample%40upi%26pn%3DYourName%26am%3D88%26cu%3DINR" alt="Pay QR" class="qr-code" />
+      <p>Scan to Pay ₹88</p>
+      <button id="payUnlock" class="btn">Pay & Unlock</button>
     </div>
 
     <footer>
-        <p>Made with ❤ for helping marriages happen.</p>
-        <p>Contact: support@yourdomain.com</p>
+      <p>Made with ❤ for helping marriages happen.</p>
+      <p><a href="mailto:support@yourdomain.com">support@yourdomain.com</a></p>
     </footer>
+  </div>
 
-    <script>
-        // --- JAVASCRIPT LOGIC ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('biodata-form');
-            const generateBtn = document.getElementById('generate-btn');
-            const biodataOutput = document.getElementById('biodata-output');
-            const formContainer = document.getElementById('form-container');
-            const paymentSection = document.getElementById('payment-section');
-            const payUnlockBtn = document.getElementById('pay-unlock-btn');
-            const downloadPdfBtn = document.getElementById('download-pdf-btn');
+  <script>
+    // Initialize jsPDF
+    const { jsPDF } = window.jspdf;
 
-            const MAX_FREE_GENERATIONS = 2;
-            const UNLOCKED_GENERATIONS = 20;
+    // Local Storage Setup
+    const FREE_LIMIT = 2;
+    const PAID_LIMIT = 20;
 
-            // Function to get usage stats from localStorage
-            const getUsageStats = () => {
-                const stats = JSON.parse(localStorage.getItem('biodataGeneratorStats')) || {
-                    generations: 0,
-                    limit: MAX_FREE_GENERATIONS
-                };
-                return stats;
-            };
+    function getRemaining() {
+      const freeUsed = parseInt(localStorage.getItem('freeUsed') || '0');
+      const paidUsed = parseInt(localStorage.getItem('paidUsed') || '0');
+      const isPaid = localStorage.getItem('isPaid') === 'true';
 
-            // Function to save usage stats to localStorage
-            const saveUsageStats = (stats) => {
-                localStorage.setItem('biodataGeneratorStats', JSON.stringify(stats));
-            };
+      if (isPaid && paidUsed < PAID_LIMIT) {
+        return PAID_LIMIT - paidUsed;
+      } else if (!isPaid && freeUsed < FREE_LIMIT) {
+        return FREE_LIMIT - freeUsed;
+      } else if (isPaid && paidUsed >= PAID_LIMIT) {
+        // Reset paid access if limit exceeded (simulate expired)
+        localStorage.setItem('isPaid', 'false');
+        localStorage.setItem('paidUsed', '0');
+        return 0;
+      }
+      return 0;
+    }
 
-            // Check usage and update UI accordingly
-            const checkUsage = () => {
-                const stats = getUsageStats();
-                if (stats.generations >= stats.limit) {
-                    formContainer.style.display = 'none';
-                    paymentSection.style.display = 'block';
-                } else {
-                    formContainer.style.display = 'block';
-                    paymentSection.style.display = 'none';
-                }
-            };
+    function incrementUsage() {
+      const isPaid = localStorage.getItem('isPaid') === 'true';
+      if (isPaid) {
+        const paidUsed = parseInt(localStorage.getItem('paidUsed') || '0');
+        localStorage.setItem('paidUsed', (paidUsed + 1).toString());
+      } else {
+        const freeUsed = parseInt(localStorage.getItem('freeUsed') || '0');
+        localStorage.setItem('freeUsed', (freeUsed + 1).toString());
+      }
+    }
 
-            // Handle form submission
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                let stats = getUsageStats();
-                if (stats.generations >= stats.limit) {
-                    checkUsage();
-                    alert('You have reached your generation limit. Please upgrade to continue.');
-                    return;
-                }
+    function updateCounter() {
+      const remaining = getRemaining();
+      document.getElementById('counter').textContent = `Generations Left: ${remaining}`;
+      return remaining > 0;
+    }
 
-                // Get form values
-                const formData = {
-                    fullName: document.getElementById('fullName').value,
-                    dob: document.getElementById('dob').value,
-                    age: document.getElementById('age').value,
-                    height: document.getElementById('height').value,
-                    weight: document.getElementById('weight').value,
-                    education: document.getElementById('education').value,
-                    occupation: document.getElementById('occupation').value,
-                    fatherName: document.getElementById('fatherName').value,
-                    motherName: document.getElementById('motherName').value,
-                    address: document.getElementById('address').value,
-                    contact: document.getElementById('contact').value,
-                    hobbies: document.getElementById('hobbies').value,
-                };
-                
-                // Populate the output card
-                document.getElementById('output-name').textContent = formData.fullName;
-                document.getElementById('output-dob').textContent = new Date(formData.dob).toLocaleDateString('en-GB'); // DD/MM/YYYY
-                document.getElementById('output-age').textContent = `${formData.age} years`;
-                document.getElementById('output-height').textContent = formData.height;
-                document.getElementById('output-weight').textContent = `${formData.weight} kg`;
-                document.getElementById('output-education').textContent = formData.education;
-                document.getElementById('output-occupation').textContent = formData.occupation;
-                document.getElementById('output-fatherName').textContent = formData.fatherName;
-                document.getElementById('output-motherName').textContent = formData.motherName;
-                document.getElementById('output-address').textContent = formData.address;
-                document.getElementById('output-contact').textContent = formData.contact;
-                document.getElementById('output-hobbies').textContent = formData.hobbies;
+    // Toggle visibility
+    function show(elementId) {
+      document.getElementById(elementId).style.display = 'block';
+    }
 
-                // Show the output card
-                biodataOutput.style.display = 'block';
-                biodataOutput.scrollIntoView({ behavior: 'smooth' });
-                
-                // Update usage stats
-                stats.generations++;
-                saveUsageStats(stats);
-                checkUsage(); // Re-check to show payment wall if limit is reached now
-            });
-            
-            // Handle simulated payment
-            payUnlockBtn.addEventListener('click', () => {
-                alert('Payment Successful! You have unlocked 20 more biodata generations.');
-                
-                const stats = {
-                    generations: 0,
-                    limit: UNLOCKED_GENERATIONS
-                };
-                saveUsageStats(stats);
-                
-                // Reset UI
-                checkUsage();
-            });
+    function hide(elementId) {
+      document.getElementById(elementId).style.display = 'none';
+    }
 
-            // Handle PDF download
-            downloadPdfBtn.addEventListener('click', () => {
-                const element = document.getElementById('biodata-content-to-download');
-                const fullName = document.getElementById('fullName').value || 'Biodata';
-                const filename = `${fullName.replace(/\s+/g, '_')}_Biodata.pdf`;
-                
-                const opt = {
-                    margin:       1,
-                    filename:     filename,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true },
-                    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-                };
+    // Event Listeners
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      if (updateCounter()) {
+        show('generatorForm');
+        hide('generateBtn');
+      } else {
+        showUpgrade();
+      }
+    });
 
-                html2pdf().set(opt).from(element).save();
-            });
+    document.getElementById('biodataForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      generateBiodata();
+      incrementUsage();
+      updateCounter();
+      show('biodataPreview');
+      hide('generatorForm');
+      hide('upgradeSection');
+    });
 
-            // Initial check on page load
-            checkUsage();
-        });
-    </script>
+    document.getElementById('newBiodata').addEventListener('click', () => {
+      hide('biodataPreview');
+      if (updateCounter()) {
+        show('generatorForm');
+      } else {
+        showUpgrade();
+      }
+    });
+
+    document.getElementById('payUnlock').addEventListener('click', () => {
+      localStorage.setItem('isPaid', 'true');
+      localStorage.setItem('paidUsed', '0');
+      updateCounter();
+      hide('upgradeSection');
+      show('generatorForm');
+    });
+
+    document.getElementById('downloadPdf').addEventListener('click', () => {
+      const doc = new jsPDF();
+      const content = document.getElementById('biodataContent');
+      const lines = [];
+
+      // Extract text from biodata
+      const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while (node = walker.nextNode()) {
+        const text = node.textContent.trim();
+        if (text && !text.startsWith('http')) {
+          lines.push(text);
+        }
+      }
+
+      // Add to PDF
+      let y = 20;
+      doc.setFontSize(18);
+      doc.text('Marriage Biodata', 14, y);
+      y += 15;
+      doc.setFontSize(12);
+      lines.forEach(line => {
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+        doc.text(line, 14, y);
+        y += 10;
+      });
+
+      doc.save('marriage_biodata.pdf');
+    });
+
+    function generateBiodata() {
+      const fields = ['fullName', 'dob', 'age', 'height', 'weight', 'education', 'occupation',
+                      'fatherName', 'motherName', 'address', 'contact', 'hobbies'];
+      fields.forEach(id => {
+        const value = document.getElementById(id).value;
+        const previewId = 'preview' + id.charAt(0).toUpperCase() + id.slice(1);
+        document.getElementById(previewId).textContent = value || 'Not provided';
+      });
+      document.getElementById('previewName').textContent = document.getElementById('fullName').value;
+      document.getElementById('previewAge').textContent = `Age: ${document.getElementById('age').value}`;
+    }
+
+    function showUpgrade() {
+      hide('generatorForm');
+      hide('biodataPreview');
+      show('upgradeSection');
+    }
+
+    // Initialize on load
+    window.onload = function () {
+      updateCounter();
+      hide('generatorForm');
+      hide('biodataPreview');
+      hide('upgradeSection');
+    };
+  </script>
 </body>
 </html>
